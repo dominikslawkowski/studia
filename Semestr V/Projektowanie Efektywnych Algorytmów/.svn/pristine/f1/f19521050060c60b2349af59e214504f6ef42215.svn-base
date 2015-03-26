@@ -1,3 +1,0 @@
-build/Debug/CLang-Windows/KolejkaTabu.o: KolejkaTabu.cpp KolejkaTabu.h
-
-KolejkaTabu.h:

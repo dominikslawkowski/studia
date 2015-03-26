@@ -1,6 +1,0 @@
-build/Debug/CLang-Windows/main.o: main.cpp ProblemKomiwojazera.h \
-  KolejkaTabu.h
-
-ProblemKomiwojazera.h:
-
-KolejkaTabu.h:
