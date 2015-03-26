@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Zmień hasło</title>
+
+    <link href="/static/SOPK/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/static/SOPK/css/signin.css" rel="stylesheet">
+  </head>
+
+  {% block body_block %}
+      {% if zmieniono_haslo %}
+          <div class="hero-unit">
+              <div class="form-group" align = "center">
+                  <h2 >Hasło zostało zmienione</h2>
+                  <a href="{% url 'SOPK:index' %}">
+                      <button class="btn btn-lg btn-primary btn-block" style = "width: 300px">
+                          Powrót do strony głównej
+                      </button>
+                  </a><br />
+                  <a href="{% url 'SOPK:restricted' %}">
+                      <button class="btn btn-lg btn-primary btn-block" style = "width: 300px">
+                          Powrót do edycji profilu
+                      </button>
+                  </a><br />
+                </div>
+          </div>
+      {% else %}
+      <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+          <div class="container">
+              <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                  <ul class="nav navbar-nav navbar-right">
+                      <li><a href={% url 'SOPK:restricted' %}>Edytuj Profil</a>
+                      <li><a href={% url 'SOPK:index' %}>Powrót do strony głównej</a></li>
+                  </ul>
+              </nav>
+          </div>
+      </header>
+
+      <div class="container">
+          <form class="form-signin" role="form" method="post" action=".">
+              {% csrf_token %}
+              <div class="form-group" align = "center">
+                  <h2>Zmień hasło</h2>
+                  {% for field in form.visible_fields %}
+                      <label>{{field.label}}{{ field.error}}</label>
+                      <br>{{ field }}<br>
+                  {% endfor %}
+                  <button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" />
+                  Zmień hasło
+                  </button>
+              </div>
+          </form>
+
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-xs-8 col-sm-12">
+                  <div>
+                      {% if error_message %}
+                          {% for key, value in error_message.items %}
+                              <p class="bg-danger" style = "height : 65px; text-align: center">
+                                  <br><strong>
+                                  {{ key }} : {{ value }}
+                                  </strong></br>
+                              </p>
+                          {% endfor %}
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+      </div>
+      </div>
+      {% endif %}
+{% endblock %}

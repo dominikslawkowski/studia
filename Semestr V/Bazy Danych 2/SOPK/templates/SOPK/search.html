@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wyszukaj Połączenie</title>
+        <link href="/static/SOPK/css/dashboard.css" rel="stylesheet">
+        <link href="/static/SOPK/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="/static/SOPK/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+    </head>
+
+    {% block body_block %}
+        <div class="hero-unit">
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href={% url 'SOPK:szukaj' %}>Wyszukaj Połączenie</a>
+          </div>
+          <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                  <li><a href="{% url 'SOPK:index' %}">Powrót na stronę główną</a></li>
+              </ul>
+          </div>
+      </div>
+</div>
+        </div>
+
+        </div>
+        <div class="jumbotron">
+        <div class="container">
+        <form class="form-horizontal" role="form" method="post" action=".">
+        {% csrf_token %}
+        <fieldset>
+
+        <legend>Szukaj Połączenia</legend>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="skad">Skąd:</label>
+            <div class="col-md-5">
+                <input id="skad" name="skad" type="text" placeholder="np. Warszawa" class="form-control input-md" required="">
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="dokad">Dokąd:</label>
+                <div class="col-md-5">
+                    <input id="dokad" name="dokad" type="text" placeholder="np. Białystok" class="form-control input-md" required="">
+                </div>
+        </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="dokad">Data odjazdu:</label>
+                 <div class="col-md-5">
+                <div class='input-group date' id='datetimepicker2'>
+                    <input id = "data" name ="data" type='text' class="form-control input-md"  placeholder="2014-12-31 12:30" required=""/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="szukaj"></label>
+                <div class="col-md-4">
+                    <button type="submit" id="szukaj" name="szukaj" class="btn btn-primary">Szukaj</button>
+                </div>
+            </div>
+        </fieldset>
+
+        </form>
+        </div>
+        </div>
+
+
+        <script type="text/javascript" src="/static/SOPK/js/jquery.min.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="/static/SOPK/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/static/SOPK/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="/static/SOPK/js/locales/bootstrap-datetimepicker.pl.js" charset="UTF-8"></script>
+        <div class="container">
+
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker2').datetimepicker({
+                    language: 'pl',
+
+                });
+            });
+        </script>
+    </div>
+</div>
+
+
+        {% endblock %}
+</html>

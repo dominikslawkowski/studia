@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>System Obsługi Połączeń Kolejowych</title>
+
+    <link href="/static/SOPK/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/SOPK/css/dashboard.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+      <script src="/static/SOPK/js/html5shiv.min.js"></script>
+      <script src="/static/SOPK/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href={% url 'SOPK:index' %}>SOPK</a>
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-left">
+                       <li><a href="{% url 'SOPK:index' %}">Home</a></li>
+                       <li><a href="{% url 'SOPK:szukaj' %}">Wyszukaj Połączenie</a></li>
+
+
+                   {% if user.is_authenticated %}
+                       <li><a href="{% url 'SOPK:restricted' %}">Mój profil</a></li>
+                       {% if user.is_superuser %}
+                           <li><a href="admin/">Admin</a></li>
+                       {% endif %}
+                   {% endif %}
+                </ul>
+
+              {% if not user.is_authenticated %}
+                  <form class="navbar-form navbar-right" role="form" method="post" action={% url 'SOPK:logowanie' %}>
+                    {% csrf_token %}
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Login" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/>
+                            <input type="password" class="form-control" placeholder="Hasło" id="id_password" name="password" type="password" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-success" value="Zaloguj">Zaloguj</button>
+                        <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><img style="height: 33px;" src="{{ MEDIA_URL }}media/buttons/fb_button.png"></a>
+                  </form>
+              {% else %}
+                  <form class="navbar-form navbar-right" >
+                      <a href="{% url 'SOPK:wylogowywanie' %}?next={% url 'SOPK:index' %}">
+                          <button type="button" class="btn btn-danger" value="Wyloguj">Wyloguj się</button>
+                      </a>
+                  </form>
+              {% endif %}
+
+                  <ul class="nav navbar-nav navbar-right">
+                      {% if user.is_authenticated %}
+                          <li>
+                            <p class="navbar-text">Witaj, {{ user.username }} !</p>
+                          </li>
+                      {% else %}
+                          <li>
+                            <a href="{% url 'SOPK:rejestruj' %}">Zarejestruj</a>
+                          </li>
+                    {% endif %}
+                  </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+                {% block side_block %}{% endblock %}
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+           <div>
+               {% block body_block %}{% endblock %}
+           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/SOPK/js/jquery.min.js"></script>
+    <script src="/static/SOPK/js/bootstrap.min.js"></script>
+    <script src="/static/SOPK/js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/static/SOPK/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>>

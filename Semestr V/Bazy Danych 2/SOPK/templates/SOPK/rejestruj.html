@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rejestracja</title>
+        <link href="/static/SOPK/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/SOPK/css/dashboard.css" rel="stylesheet">
+    </head>
+
+    {% block body_block %}
+        <div class="hero-unit">
+
+        {% if zarejestrowany %}
+        <strong>Dziękujemy za rejestrację!</strong>
+        <a href="{% url 'SOPK:index' %}">Powrót do strony głównej.</a><br />
+        {% else %}
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href={% url 'SOPK:rejestruj' %}>Rejestracja</a>
+          </div>
+          <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                  <li><a href="{% url 'SOPK:index' %}">Powrót na stronę główną</a></li>
+              </ul>
+          </div>
+      </div>
+</div>
+
+        <div class="jumbotron">
+            <form class="form-signin span8" id="user_form" method="post" action="{% url 'SOPK:rejestruj' %}"
+                  enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="form-group" align = "center">
+
+                {% for field in formularz_uzytkownika.visible_fields %}
+                    <label>{{field.help_text}}{{ field.error}}</label>
+                         <br>
+                            {{ field }}
+                         <br>
+                {% endfor %}
+
+                {% for field in formularz_profilu_uzytkownika.visible_fields %}
+                    <label>{{field.help_text}}{{ field.error}}</label>
+                        <br>
+                            {{ field }}
+                        <br>
+                {% endfor %}
+
+            <input class="btn btn-primary" type="submit"  name="submit" value="Zarejestruj"/>
+            </div>
+        </form>
+        </div>
+
+         <div class="container-fluid">
+             <div class="row">
+                 <div class="col-xs-8 col-sm-12">
+                     <div>
+                         {% if error_message %}
+                             {% for key, value in error_message.items %}
+                                 <p class="bg-danger" style = "height : 65px; text-align: center">
+                                     <br><strong>
+                                     {{ key }} : {{ value }}
+                                     </strong></br>
+                                 </p>
+                             {% endfor %}
+                         {% endif %}
+                     </div>
+                 </div>
+             </div>
+         </div>
+        {% endif %}
+    </div>
+    {% endblock %}
+</html>

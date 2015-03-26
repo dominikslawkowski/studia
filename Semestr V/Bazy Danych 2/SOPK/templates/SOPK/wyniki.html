@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Wyniki Wyszukiwania</title>
+
+    <link href="/static/SOPK/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/static/SOPK/css/signin.css" rel="stylesheet">
+  </head>
+
+{% block body_block %}
+
+        <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+  <div class="container">
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href={% url 'SOPK:szukaj' %}>Powrót do wyszukiwania</a>
+        <li><a href={% url 'SOPK:index' %}>Powrót do strony głównej</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <h3>Wyniki wyszukiwania: <h4>{{ miasto_a }} - {{ miasto_b}} Odjazd: {{ data_wyszukiwania }} </h4></h3>
+        <div class="col-md-12">
+        {% if error_message %}
+             <p class="bg-danger" style = "height : 65px; text-align: center">
+                    <br><strong>
+                        {{ error_message }}
+                    </strong></p>
+        {% else %}
+            <div class="alert alert-info">
+                Please Wait...</div>
+            <div class="alert alert-success" style="display:none;">
+                <span class="glyphicon glyphicon-ok"></span> Przesuwaj wiersze, aby zmienić kolejność</div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Nazwa Połączenia
+                        </th>
+                        <th>
+                            Skąd
+                        </th>
+                         <th>
+                            Dokąd
+                        </th>
+                        <th>
+                            Data Odjazdu
+                        </th>
+                        <th>
+                            Odjazd
+                        </th>
+                        <th>
+                            Data Przyjazdu
+                        </th>
+                        <th>
+                            Przyjazd
+                        </th>
+                        <th>
+                            Czas trwania
+                        </th>
+                        <th>
+                            Liczba Kilometrów
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for polaczenie, czas, data_przyjazdu in wyniki %}
+                    <tr class="active">
+                        <td>
+                             {{ polaczenie.połączenie.nazwa_połączenia }}
+                        </td>
+                        <td>
+                            {{ polaczenie.połączenie.dworzec_poczatkowy }}
+                        </td>
+                         <td>
+                            {{ polaczenie.połączenie.dworzec_koncowy }}
+                        </td>
+                        <td>
+                             {{ polaczenie.data_połączenia }}
+                        </td>
+                        <td>
+                            {{ polaczenie.połączenie.odjazd }}
+                        </td>
+                        <td>
+                            {{ data_przyjazdu }}
+                        </td>
+                        <td>
+                            {{ polaczenie.połączenie.przyjazd }}
+                        </td>
+                          <td>
+                            {{ czas }}
+                        </td>
+                         <td>
+                            {{ polaczenie.połączenie.liczba_kilometrow }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/SOPK/js/jquery.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/static/SOPK/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script>
+    (function ($) {
+    $.fn.extend({
+        tableAddCounter: function (options) {
+
+            // set up default options
+            var defaults = {
+                title: '#',
+                start: 1,
+                id: false,
+                cssClass: false
+            };
+
+            // Overwrite default options with user provided
+            var options = $.extend({}, defaults, options);
+
+            return $(this).each(function () {
+                // Make sure this is a table tag
+                if ($(this).is('table')) {
+
+                    // Add column title unless set to 'false'
+                    if (!options.title) options.title = '';
+                    $('th:first-child, thead td:first-child', this).each(function () {
+                        var tagName = $(this).prop('tagName');
+                        $(this).before('<' + tagName + ' rowspan="' + $('thead tr').length + '" class="' + options.cssClass + '" id="' + options.id + '">' + options.title + '</' + tagName + '>');
+                    });
+
+                    // Add counter starting counter from 'start'
+                    $('tbody td:first-child', this).each(function (i) {
+                        $(this).before('<td>' + (options.start + i) + '</td>');
+                    });
+
+                }
+            });
+        }
+    });
+})(jQuery);
+
+$(document).ready(function () {
+    $('.table').tableAddCounter();
+    $.getScript("http://code.jquery.com/ui/1.9.2/jquery-ui.js").done(function (script, textStatus)
+                                                                     {
+                                                                         $('tbody').sortable();
+                                                                         $(".alert-info").alert('close');
+                                                                         $(".alert-success").show(); });
+});
+    </script>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Zaloguj się do Systemu Obsługi Połączeń Kolejowych</title>
+
+    <link href="/static/SOPK/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/static/SOPK/css/signin.css" rel="stylesheet">
+  </head>
+
+{% block body_block %}
+
+        <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+  <div class="container">
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href={% url 'SOPK:rejestruj' %}>Rejestracja</a>
+        <li><a href={% url 'SOPK:index' %}>Powrót do strony głównej</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div class="container">
+        <form class="form-signin" role="form" method="post" action=".">
+                {% csrf_token %}
+
+                <h2>Zaloguj się do SOPK</h2>
+                        <input class="form-control" placeholder="Login" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/>
+                        <input type="password" class="form-control" placeholder="Hasło" id="id_password" name="password" type="password" required />
+
+                        <button class="btn btn-lg btn-success btn-block" type="submit" value="Submit" />Zaloguj się</button>
+                        <div hidden ></div>
+                        <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><src="{{ MEDIA_URL }}media/buttons/fb_button.png"></a>
+
+        </form>
+
+      <div class="container-fluid">
+
+        <div class="row">
+         <div class="col-xs-8 col-sm-12">
+           <div>
+                 {% if error_message %}
+                <p class="bg-danger" style = "height : 65px; text-align: center">
+                    <br><strong>
+                        {{ error_message }}
+                    </strong></br></p>
+                {% endif %}
+           </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+{% endblock %}
