@@ -1,0 +1,4 @@
+build/Debug/CLang-Windows/ProblemKomiwojazera.o: ProblemKomiwojazera.cpp \
+  ProblemKomiwojazera.h
+
+ProblemKomiwojazera.h:

@@ -1,0 +1,3 @@
+build/Debug/CLang-Windows/main.o: main.cpp ProblemKomiwojazera.h
+
+ProblemKomiwojazera.h:
